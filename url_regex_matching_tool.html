@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script>
+		function match_lists() {
+			var urls = $('textarea[name=url_list]').val().split('\n');
+			
+			//$.each(lines, function(){
+			//  urls.push(this);
+			//});
+			
+			var regexs = $('textarea[name=regex_list]').val().split('\n');
+			
+			var url_string = ''
+			
+			for (i = 0; i < urls.length; i++) { 
+				url_string = url_string + String(urls[i]) + "<br>";
+			}
+			$('#test').html(url_string);
+		}
+			
+		</script>
+	</head>	
+	<body>
+		<table align="center">
+			<tr>
+				<td>
+					<p><font family="Verdana">Paste URLs here</font></p>
+				</td>
+				<td>
+					<p><font family="Verdana">Paste RexEx's here</font></p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea name="url_list" rows="25" cols="50"></textarea>
+				</td>
+				<td>
+					<textarea name="regex_list" rows="25" cols="50"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" onclick="match_lists();">
+				</td>
+			</tr>
+			<tr>
+				<p id="test"></p>
+			</tr>
+		</table>
+	</body>
+</html>

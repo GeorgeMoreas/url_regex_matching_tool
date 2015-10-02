@@ -2,6 +2,10 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script>
+		RegExp.escape = function(string) {
+		  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+		};
+		
 		function match_lists() {
 			var urls = $('textarea[name=url_list]').val().split('\n');
 			var urls_match = [];
@@ -12,8 +16,9 @@
 			for (i = 0; i < urls.length; i++) {
 				urls_match[i] = "None";
 				for (j = 0; j < regexs.length; j++) {
-					var match_urls= urls[i].match(regexs[j]);
-					if (match_urls != null) {
+					var re = new RegExp(RegExp.escape(regexs[j]));
+					var match_urls = re.test(urls[i]);
+					if (match_urls) {
 						if (urls_match[i] == "None") {
 							urls_match[i] = regexs[j];
 						} else {
@@ -26,8 +31,10 @@
 			for (i = 0; i < regexs.length; i++) {
 				regexs_match[i] = "None";
 				for (j = 0; j < urls.length; j++) {
-					var match_regexs = urls[j].match(regexs[i]);
-					if (match_regexs != null) {
+					var re = new RegExp(RegExp.escape(regexs[i]));
+					var match_regexs = re.test(urls[j]);
+					//var match_regex = RegExp.test(undefined, /^\/(.*)\/(.*)/.exec(bigArray[i].letters).slice(1));
+					if (match_regexs) {
 						if (regexs_match[i] == "None") {
 							regexs_match[i] = urls[j];
 						} else {

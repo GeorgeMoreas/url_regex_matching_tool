@@ -4,19 +4,41 @@
 		<script>
 		function match_lists() {
 			var urls = $('textarea[name=url_list]').val().split('\n');
-			
-			//$.each(lines, function(){
-			//  urls.push(this);
-			//});
+			var urls_match = [];
 			
 			var regexs = $('textarea[name=regex_list]').val().split('\n');
+			var regexs_match = [];
 			
-			var url_string = ''
-			
-			for (i = 0; i < urls.length; i++) { 
-				url_string = url_string + String(urls[i]) + "<br>";
+			for (i = 0; i < urls.length; i++) {
+				urls_match[i] = "None";
+				for (j = 0; j < regexs.length; j++) {
+					var match_urls= urls[i].match(regexs[j]);
+					if (match_urls != null) {
+						if (urls_match[i] == "None") {
+							urls_match[i] = regexs[j];
+						} else {
+							urls_match[i] = urls_match[i] + "<br>" + regexs[j];
+						}
+					}
+				}
 			}
-			$('#test').html(url_string);
+			
+			for (i = 0; i < regexs.length; i++) {
+				regexs_match[i] = "None";
+				for (j = 0; j < urls.length; j++) {
+					var match_regexs = urls[j].match(regexs[i]);
+					if (match_regexs != null) {
+						if (regexs_match[i] == "None") {
+							regexs_match[i] = urls[j];
+						} else {
+							regexs_match[i] = regexs_match[i] + "<br>" + urls[j];
+						}
+					}
+				}
+			}
+			
+			$('#urls').html(regexs_match);
+			$('#regexs').html(urls_match);		
 		}
 			
 		</script>
@@ -45,7 +67,20 @@
 				</td>
 			</tr>
 			<tr>
-				<p id="test"></p>
+				<td>
+					<p><font family="Verdana">URLs:</font></p>
+				</td>
+				<td>
+					<p><font family="Verdana">Matching RegEx's:</font></p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p id="urls"></p>
+				</td>
+				<td>
+					<p id="regexs"></p>
+				</td>
 			</tr>
 		</table>
 	</body>

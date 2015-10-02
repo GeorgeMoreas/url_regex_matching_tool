@@ -2,9 +2,6 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script>
-		RegExp.escape = function(string) {
-		  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-		};
 		
 		function match_lists() {
 			var urls = $('textarea[name=url_list]').val().split('\n');
@@ -16,7 +13,7 @@
 			for (i = 0; i < urls.length; i++) {
 				urls_match[i] = "None";
 				for (j = 0; j < regexs.length; j++) {
-					var re = new RegExp(RegExp.escape(regexs[j]));
+					var re = new RegExp(regexs[j]); //adding extra slashes - need to figure out how to remove
 					var match_urls = re.test(urls[i]);
 					if (match_urls) {
 						if (urls_match[i] == "None") {
@@ -31,9 +28,8 @@
 			for (i = 0; i < regexs.length; i++) {
 				regexs_match[i] = "None";
 				for (j = 0; j < urls.length; j++) {
-					var re = new RegExp(RegExp.escape(regexs[i]));
+					var re = new RegExp(regexs[i]);
 					var match_regexs = re.test(urls[j]);
-					//var match_regex = RegExp.test(undefined, /^\/(.*)\/(.*)/.exec(bigArray[i].letters).slice(1));
 					if (match_regexs) {
 						if (regexs_match[i] == "None") {
 							regexs_match[i] = urls[j];
@@ -44,8 +40,8 @@
 				}
 			}
 			
-			$('#urls').html(regexs_match);
-			$('#regexs').html(urls_match);		
+			$('#id_urls').html(regexs_match);
+			$('#id_regexs').html(urls_match);		
 		}
 			
 		</script>
@@ -83,10 +79,10 @@
 			</tr>
 			<tr>
 				<td>
-					<p id="urls"></p>
+					<p id="id_urls"></p>
 				</td>
 				<td>
-					<p id="regexs"></p>
+					<p id="id_regexs"></p>
 				</td>
 			</tr>
 		</table>

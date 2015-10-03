@@ -14,6 +14,11 @@
 				urls_match[i] = "None";
 				for (j = 0; j < regexs.length; j++) {
 					var re = new RegExp(regexs[j]); //adding extra slashes - need to figure out how to remove
+					/*
+					var flags = inputstring.replace(/.*\/([gimy]*)$/, '$1');
+					var pattern = inputstring.replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+					var regex = new RegExp(pattern, flags);
+					*/
 					var match_urls = re.test(urls[i]);
 					if (match_urls) {
 						if (urls_match[i] == "None") {

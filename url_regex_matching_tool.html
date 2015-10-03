@@ -60,14 +60,15 @@
 		</script>
 		<style>
 			table {
-    			border-spacing: 10px;
+				padding: 10px;
     		}
 			td {
 				font-family: Verdana;
-				font-size: 10pt;
+				font-size: 8pt;
 			}
 			#inner_td {
 				border: 1px solid black;
+				padding: 10px;
 			}
 			#inner_tr {
 				border: 1px solid black;
@@ -86,32 +87,26 @@
 			</tr>
 			<tr>
 				<td align="center">
-					<textarea name="url_list" rows="25" cols="50">
+					<textarea name="url_list" rows="25" cols="80">
 my-us3r_n4m3
 th1s1s-wayt00_l0ngt0beausername
 myp4ssw0rd
 mypa$$w0rd
 john@doe.com
-john@doe.something
-					</textarea>
+john@doe.something</textarea>
 				</td>
 				<td align="center">
-					<textarea name="regex_list" rows="25" cols="50">
+					<textarea name="regex_list" rows="25" cols="80">
 /^[a-z0-9_-]{3,16}$/
 test_of_non-regex
 /^[a-z0-9_-]{6,18}$/
-/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-					</textarea>
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
+					<br>
 					<input type="submit" onclick="match_lists();">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<br>
 					<br>
 					<br>
 				</td>
@@ -120,8 +115,8 @@ test_of_non-regex
 				<td>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="2" align="center">
+			<tr valign="top">
+				<td colspan="1" align="center">
 					<table id="url_table" style="border-collapse: collapse;">
 						<tr>
 							<td colspan="2">
@@ -130,16 +125,7 @@ test_of_non-regex
 						</tr>
 					</table>
 				</td>
-			</tr>
-			<tr>
-				<td>
-					<br>
-					<br>
-					<br>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
+				<td colspan="1" align="center">
 					<table id="regex_table" style="border-collapse: collapse;">
 						<tr>
 							<td colspan="2">

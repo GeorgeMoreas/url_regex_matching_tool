@@ -4,11 +4,14 @@
 		<script>
 		
 		function match_lists() {
-			var urls = $('textarea[name=url_list]').val().split('\n');
+			$('#url_table').empty();
+			$('#regex_table').empty();
+		
+			var urls = $('textarea[id=url_list]').val().split('\n');
 			var for_regex = [];
 			var urls_match = [];
 			
-			var regexs = $('textarea[name=regex_list]').val().split('\n');
+			var regexs = $('textarea[id=regex_list]').val().split('\n');
 			var for_url = []
 			var regexs_match = [];
 			
@@ -31,7 +34,14 @@
 						//
 					}
 				}
-				$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
+				if (urls.length == 1 && urls[i] == "") {
+					//
+				} else {
+					if (i == 0) {
+						$('#url_table').append('<tr><td><p>URLs:</p></td></tr>');
+					}
+					$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
+				}
 			}
 			
 			for (i = 0; i < regexs.length; i++) {
@@ -53,13 +63,22 @@
 						urls_match[i] = "<-- this is not a valid RegEx pattern";
 					}
 				}
-				$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
+				if (regexs.length == 1 && regexs[i] == "") {
+					//
+				} else {
+					if (i == 0) {
+						$('#regex_table').append('<tr><td><p>Matching RegEx\'s:</p></td></tr>');
+					}
+					$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
+				}
 			}	
 		}
 		
 		function clear_lists() {
 			$("#url_list").val('');
 			$("#regex_list").val('');
+			$('#url_table').empty();
+			$('#regex_table').empty();
 		}
 			
 		</script>
@@ -124,20 +143,10 @@ test_of_non-regex
 			<tr valign="top">
 				<td colspan="1" align="center">
 					<table id="url_table" style="border-collapse: collapse;" width="100%">
-						<tr>
-							<td>
-								<p>URLs:</p>
-							</td>
-						</tr>
 					</table>
 				</td>
 				<td colspan="1" align="center">
 					<table id="regex_table" style="border-collapse: collapse;" width="100%">
-						<tr>
-							<td>
-								<p>Matching RegEx's:</p>
-							</td>
-						</tr>
 					</table>
 				</td>
 			</tr>

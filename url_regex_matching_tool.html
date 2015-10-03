@@ -58,8 +58,8 @@
 		}
 		
 		function clear_lists() {
-			$("url_list").val('');
-			$("regex_list").val('');
+			$("#url_list").val('');
+			$("#regex_list").val('');
 		}
 			
 		</script>
@@ -92,7 +92,7 @@
 			</tr>
 			<tr>
 				<td align="center">
-					<textarea name="url_list" rows="25" cols="80">
+					<textarea id="url_list" rows="25" cols="80">
 my-us3r_n4m3
 th1s1s-wayt00_l0ngt0beausername
 myp4ssw0rd
@@ -101,7 +101,7 @@ john@doe.com
 john@doe.something</textarea>
 				</td>
 				<td align="center">
-					<textarea name="regex_list" rows="25" cols="80">
+					<textarea id="regex_list" rows="25" cols="80">
 /^[a-z0-9_-]{3,16}$/
 test_of_non-regex
 /^[a-z0-9_-]{6,18}$/
@@ -112,7 +112,7 @@ test_of_non-regex
 				<td colspan="2" align="center">
 					<br>
 					<input type="submit" onclick="match_lists();">
-					<input type="submit" name="Clear" onclick="clear_lists();">
+					<input type="submit" value="Clear" onclick="clear_lists();">
 					<br>
 					<br>
 				</td>

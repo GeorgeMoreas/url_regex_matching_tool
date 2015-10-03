@@ -38,7 +38,7 @@
 					//
 				} else {
 					if (i == 0) {
-						$('#url_table').append('<tr><td><p>URLs:</p></td></tr>');
+						$('#url_table').append('<tr><td><p>URLs:</p></td><td><p>RegEx\'s that match them:</p></td></tr>');
 					}
 					$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
 				}
@@ -67,11 +67,38 @@
 					//
 				} else {
 					if (i == 0) {
-						$('#regex_table').append('<tr><td><p>Matching RegEx\'s:</p></td></tr>');
+						$('#regex_table').append('<tr><td><p>RegEx\'s:</p></td><td><p>URLs that match them:</p></td></tr>');
 					}
 					$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
 				}
 			}	
+		}
+		
+		function remove_duplicates() {
+			remove_duplicates_loop("#url_list");
+			remove_duplicates_loop("#regex_list");
+		}
+		
+		function remove_duplicates_loop(table_id) {
+			var arr = $(table_id).val().split('\n');
+		
+			var arrDistinct = new Array();
+			 $(arr).each(function(index, item) {
+				 if ($.inArray(item, arrDistinct) == -1)
+							arrDistinct.push(item);
+			 });
+			 
+			$(table_id).val('');
+			 
+			for (i = 0; i < arrDistinct.length; i++) {
+				if (arrDistinct[i] != "") {
+					var entry_break = '\n';
+					if (i == 0) {
+						entry_break = '';
+					}
+					$(table_id).val($(table_id).val() + entry_break + arrDistinct[i]);
+				}
+			}
 		}
 		
 		function clear_lists() {
@@ -117,6 +144,7 @@ th1s1s-wayt00_l0ngt0beausername
 myp4ssw0rd
 mypa$$w0rd
 john@doe.com
+john@doe.com
 john@doe.something</textarea>
 				</td>
 				<td align="center">
@@ -124,14 +152,16 @@ john@doe.something</textarea>
 /^[a-z0-9_-]{3,16}$/
 test_of_non-regex
 /^[a-z0-9_-]{6,18}$/
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
 					<br>
-					<input type="submit" onclick="match_lists();">
-					<input type="submit" value="Clear" onclick="clear_lists();">
+					<input type="submit" value="Clear Input Areas" onclick="clear_lists();">
+					<input type="submit" value="Remove Duplicates from Input Areas" onclick="remove_duplicates();">
+					<input type="submit" value="Match URL List vs. RegEx List" onclick="match_lists();">
 					<br>
 					<br>
 				</td>

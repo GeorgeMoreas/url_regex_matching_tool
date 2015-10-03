@@ -5,13 +5,15 @@
 		
 		function match_lists() {
 			var urls = $('textarea[name=url_list]').val().split('\n');
+			var for_regex = [];
 			var urls_match = [];
 			
 			var regexs = $('textarea[name=regex_list]').val().split('\n');
+			var for_url = []
 			var regexs_match = [];
 			
 			for (i = 0; i < urls.length; i++) {
-				regexs_match[i] = "";
+				regexs_match[i] = "None";
 				for (j = 0; j < regexs.length; j++) {
 					var flags = regexs[j].replace(/.*\/([gimy]*)$/, '$1');
 					var pattern = regexs[j].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
@@ -19,16 +21,21 @@
 						var re = new RegExp(pattern, flags);
 						var match_urls = re.test(urls[i]);
 						if (match_urls) {
-							regexs_match[i] = regexs_match[i] + "<br>" + regexs[j];
+							if (regexs_match[i] == "None") {
+								regexs_match[i] = regexs[j];
+							} else {
+								regexs_match[i] = regexs_match[i] + "<br>" + regexs[j];
+							}
 						}
 					} catch(err) {
 						//
 					}
 				}
+				$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
 			}
 			
 			for (i = 0; i < regexs.length; i++) {
-				urls_match[i] = "";
+				urls_match[i] = "None";
 				for (j = 0; j < urls.length; j++) {
 					var flags = regexs[i].replace(/.*\/([gimy]*)$/, '$1');
 					var pattern = regexs[i].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
@@ -36,36 +43,65 @@
 						var re = new RegExp(pattern, flags);
 						var match_regexs = re.test(urls[j]);
 						if (match_regexs) {
-							urls_match[i] = urls_match[i] + "<br>" + urls[j];
+							if (urls_match[i] == "None") {
+								urls_match[i] = urls[j];
+							} else {
+								urls_match[i] = urls_match[i] + "<br>" + urls[j];
+							}
 						}
 					} catch(err) {
-						//
+						urls_match[i] = "<-- this is not a valid RegEx pattern";
 					}
 				}
-			}
-			
-			$('#id_urls').html(urls_match);
-			$('#id_regexs').html(regexs_match);		
+				$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
+			}	
 		}
 			
 		</script>
+		<style>
+			table {
+    			border-spacing: 10px;
+    		}
+			td {
+				font-family: Verdana;
+				font-size: 10pt;
+			}
+			#inner_td {
+				border: 1px solid black;
+			}
+			#inner_tr {
+				border: 1px solid black;
+			}
+		</style>
 	</head>	
 	<body>
-		<table align="center">
+		<table align="center" width="80%">
 			<tr>
 				<td>
-					<p><font family="Verdana">Paste URLs here</font></p>
+					<p>Paste URLs here:</p>
 				</td>
 				<td>
-					<p><font family="Verdana">Paste RexEx's here</font></p>
+					<p>Paste RexEx's here:</p>
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<textarea name="url_list" rows="25" cols="50"></textarea>
+				<td align="center">
+					<textarea name="url_list" rows="25" cols="50">
+my-us3r_n4m3
+th1s1s-wayt00_l0ngt0beausername
+myp4ssw0rd
+mypa$$w0rd
+john@doe.com
+john@doe.something
+					</textarea>
 				</td>
-				<td>
-					<textarea name="regex_list" rows="25" cols="50"></textarea>
+				<td align="center">
+					<textarea name="regex_list" rows="25" cols="50">
+/^[a-z0-9_-]{3,16}$/
+test_of_non-regex
+/^[a-z0-9_-]{6,18}$/
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+					</textarea>
 				</td>
 			</tr>
 			<tr>
@@ -75,18 +111,42 @@
 			</tr>
 			<tr>
 				<td>
-					<p><font family="Verdana">URLs:</font></p>
-				</td>
-				<td>
-					<p><font family="Verdana">Matching RegEx's:</font></p>
+					<br>
+					<br>
+					<br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<p id="id_urls"></p>
 				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<table id="url_table" style="border-collapse: collapse;">
+						<tr>
+							<td colspan="2">
+								<p><font family="Verdana">URLs:</font></p>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
 				<td>
-					<p id="id_regexs"></p>
+					<br>
+					<br>
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<table id="regex_table" style="border-collapse: collapse;">
+						<tr>
+							<td colspan="2">
+								<p><font family="Verdana">Matching RegEx's:</font></p>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>

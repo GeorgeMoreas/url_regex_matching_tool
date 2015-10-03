@@ -56,6 +56,11 @@
 				$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
 			}	
 		}
+		
+		function clear_lists() {
+			$("url_list").val('');
+			$("regex_list").val('');
+		}
 			
 		</script>
 		<style>
@@ -107,6 +112,7 @@ test_of_non-regex
 				<td colspan="2" align="center">
 					<br>
 					<input type="submit" onclick="match_lists();">
+					<input type="submit" name="Clear" onclick="clear_lists();">
 					<br>
 					<br>
 				</td>

@@ -11,42 +11,41 @@
 			var regexs_match = [];
 			
 			for (i = 0; i < urls.length; i++) {
-				urls_match[i] = "None";
+				regexs_match[i] = "";
 				for (j = 0; j < regexs.length; j++) {
-					var re = new RegExp(regexs[j]); //adding extra slashes - need to figure out how to remove
-					/*
-					var flags = inputstring.replace(/.*\/([gimy]*)$/, '$1');
-					var pattern = inputstring.replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
-					var regex = new RegExp(pattern, flags);
-					*/
-					var match_urls = re.test(urls[i]);
-					if (match_urls) {
-						if (urls_match[i] == "None") {
-							urls_match[i] = regexs[j];
-						} else {
-							urls_match[i] = urls_match[i] + "<br>" + regexs[j];
+					var flags = regexs[j].replace(/.*\/([gimy]*)$/, '$1');
+					var pattern = regexs[j].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+					try {
+						var re = new RegExp(pattern, flags);
+						var match_urls = re.test(urls[i]);
+						if (match_urls) {
+							regexs_match[i] = regexs_match[i] + "<br>" + regexs[j];
 						}
+					} catch(err) {
+						//
 					}
 				}
 			}
 			
 			for (i = 0; i < regexs.length; i++) {
-				regexs_match[i] = "None";
+				urls_match[i] = "";
 				for (j = 0; j < urls.length; j++) {
-					var re = new RegExp(regexs[i]);
-					var match_regexs = re.test(urls[j]);
-					if (match_regexs) {
-						if (regexs_match[i] == "None") {
-							regexs_match[i] = urls[j];
-						} else {
-							regexs_match[i] = regexs_match[i] + "<br>" + urls[j];
+					var flags = regexs[i].replace(/.*\/([gimy]*)$/, '$1');
+					var pattern = regexs[i].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+					try {
+						var re = new RegExp(pattern, flags);
+						var match_regexs = re.test(urls[j]);
+						if (match_regexs) {
+							urls_match[i] = urls_match[i] + "<br>" + urls[j];
 						}
+					} catch(err) {
+						//
 					}
 				}
 			}
 			
-			$('#id_urls').html(regexs_match);
-			$('#id_regexs').html(urls_match);		
+			$('#id_urls').html(urls_match);
+			$('#id_regexs').html(regexs_match);		
 		}
 			
 		</script>

@@ -4,125 +4,141 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script>
 		
-		function checkRegexSlashes(r) {	 
-			if (r.substring(0,1) != '/' || (r.substring(r.length - 1) != '/') {
-				r = '/' + r + '/'
-			}	
-			return r;
-		}
-		
-		function match_lists() {
-			$('#url_table').empty();
-			$('#regex_table').empty();
-		
-			var urls = $('textarea[id=url_list]').val().split('\n');
-			var for_regex = [];
-			var urls_match = [];
-			
-			var regexs = $('textarea[id=regex_list]').val().split('\n');
-			var for_url = []
-			var regexs_match = [];
-			
-			for (i = 0; i < urls.length; i++) {
-				regexs_match[i] = "None";
-				for (j = 0; j < regexs.length; j++) {
-				if (regexs[j] != '') {
-						regexs[j] = checkRegexSlashes(regexs[j]);
-						var flags = regexs[j].replace(/.*\/([gimy]*)$/, '$1');
-						var pattern = regexs[j].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
-						try {
-							var re = new RegExp(pattern, flags);
-							var match_urls = re.test(urls[i]);
-							if (match_urls) {
-								if (regexs_match[i] == "None") {
-									regexs_match[i] = regexs[j];
-								} else {
-									regexs_match[i] = regexs_match[i] + "<br>" + regexs[j];
-								}
-							}
-						} catch(err) {
-							//
-						}
-					}
-				}
-				if (urls.length == 1 && urls[i] == "") {
-					//
-				} else {
-					if (i == 0) {
-						$('#url_table').append('<tr><td><p>URLs:</p></td><td><p>RegEx\'s that match them:</p></td></tr>');
-					}
-					$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
-				}
+			function checkRegexSlashes(r) {	 
+				if (r.substring(0,1) != '/' || r.substring(r.length - 1) != '/') {
+					r = '/' + r + '/'
+				}	
+				return r;
 			}
 			
-			for (i = 0; i < regexs.length; i++) {
-				if (regexs[i] != '') {
-					urls_match[i] = "None";
-					regexs[i] = checkRegexSlashes(regexs[i]);			
-					var flags = regexs[i].replace(/.*\/([gimy]*)$/, '$1');
-					var pattern = regexs[i].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
-					var re = new RegExp(pattern, flags);
-					for (j = 0; j < urls.length; j++) {
-						try {
-							var match_regexs = re.test(urls[j]);
-							if (match_regexs) {
-								if (urls_match[i] == "None") {
-									urls_match[i] = urls[j];
-								} else {
-									urls_match[i] = urls_match[i] + "<br>" + urls[j];
+			function match_lists() {
+				$('#url_table').empty();
+				$('#regex_table').empty();
+			
+				var urls = $('textarea[id=url_list]').val().split('\n');
+				var for_regex = [];
+				var urls_match = [];
+				
+				var regexs = $('textarea[id=regex_list]').val().split('\n');
+				var for_url = []
+				var regexs_match = [];
+				
+				for (i = 0; i < urls.length; i++) {
+					regexs_match[i] = "None";
+					for (j = 0; j < regexs.length; j++) {
+					if (regexs[j] != '') {
+							regexs[j] = checkRegexSlashes(regexs[j]);
+							var flags = regexs[j].replace(/.*\/([gimy]*)$/, '$1');
+							var pattern = regexs[j].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+							try {
+								var re = new RegExp(pattern, flags);
+								var match_urls = re.test(urls[i]);
+								if (match_urls) {
+									if (regexs_match[i] == "None") {
+										regexs_match[i] = regexs[j];
+									} else {
+										regexs_match[i] = regexs_match[i] + "<br>" + regexs[j];
+									}
 								}
+							} catch(err) {
+								//
 							}
-						} catch(err) {
-							urls_match[i] = "<-- this is not a valid RegEx pattern";
 						}
 					}
-					if (regexs.length == 1 && regexs[i] == "") {
+					if (urls.length == 1 && urls[i] == "") {
 						//
 					} else {
 						if (i == 0) {
-							$('#regex_table').append('<tr><td><p>RegEx\'s:</p></td><td><p>URLs that match them:</p></td></tr>');
+							$('#url_table').append('<tr><td><p>URLs:</p></td><td><p>RegEx\'s that match them:</p></td></tr>');
 						}
-						$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
+						$('#url_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + urls[i] + '</td><td id="inner_td">' + regexs_match[i] + '</td></tr>');
 					}
 				}
-			}	
-		}
-		
-		function remove_duplicates() {
-			remove_duplicates_loop('#url_list');
-			remove_duplicates_loop('#regex_list');
-		}
-		
-		function remove_duplicates_loop(table_id) {
-			var arr = $(table_id).val().split('\n');
-		
-			var arrDistinct = new Array();
-			 $(arr).each(function(index, item) {
-				 if ($.inArray(item, arrDistinct) == -1)
-							arrDistinct.push(item);
-			 });
-			 
-			$(table_id).val('');
-			 
-			for (i = 0; i < arrDistinct.length; i++) {
-				if (arrDistinct[i] != '') {
+				
+				for (i = 0; i < regexs.length; i++) {
+					if (regexs[i] != '') {
+						urls_match[i] = "None";
+						regexs[i] = checkRegexSlashes(regexs[i]);			
+						var flags = regexs[i].replace(/.*\/([gimy]*)$/, '$1');
+						var pattern = regexs[i].replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+						var re = new RegExp(pattern, flags);
+						for (j = 0; j < urls.length; j++) {
+							try {
+								var match_regexs = re.test(urls[j]);
+								if (match_regexs) {
+									if (urls_match[i] == "None") {
+										urls_match[i] = urls[j];
+									} else {
+										urls_match[i] = urls_match[i] + "<br>" + urls[j];
+									}
+								}
+							} catch(err) {
+								urls_match[i] = "<-- this is not a valid RegEx pattern";
+							}
+						}
+						if (regexs.length == 1 && regexs[i] == "") {
+							//
+						} else {
+							if (i == 0) {
+								$('#regex_table').append('<tr><td><p>RegEx\'s:</p></td><td><p>URLs that match them:</p></td></tr>');
+							}
+							$('#regex_table > tbody:last').append('<tr id="inner_tr"><td id="inner_td">' + regexs[i] + '</td><td id="inner_td">' + urls_match[i] + '</td></tr>');
+						}
+					}
+				}	
+			}
+			
+			function remove_duplicates() {
+				remove_duplicates_loop('#url_list');
+				remove_duplicates_loop('#regex_list');
+			}
+			
+			function remove_duplicates_loop(table_id) {
+				var arr = $(table_id).val().split('\n');
+			
+				var arrDistinct = new Array();
+				 $(arr).each(function(index, item) {
+					 if ($.inArray(item, arrDistinct) == -1)
+								arrDistinct.push(item);
+				 });
+				 
+				$(table_id).val('');
+				 
+				for (i = 0; i < arrDistinct.length; i++) {
+					if (arrDistinct[i] != '') {
+						var entry_break = '\n';
+						if (i == 0) {
+							entry_break = '';
+						}
+						$(table_id).val($(table_id).val() + entry_break + arrDistinct[i]);
+					}
+				}
+			}
+			
+			function clear_lists() {
+				$('#url_list').val('');
+				$('#regex_list').val('');
+				$('#url_table').empty();
+				$('#regex_table').empty();
+			}
+				
+			function setClient() {
+				var client_url = $('#client option:selected').val();
+				$('#client_js').attr('src', client_url);
+				
+				var tc_obj = initSiteDefaultData();
+				
+				for (i = 0; i < tc_obj['pages'].length; i++) {
 					var entry_break = '\n';
 					if (i == 0) {
 						entry_break = '';
 					}
-					$(table_id).val($(table_id).val() + entry_break + arrDistinct[i]);
+					$('#regex_list').val($('#regex_list').val() + entry_break + tc_obj['pages'][i]);
 				}
 			}
-		}
-		
-		function clear_lists() {
-			$('#url_list').val('');
-			$('#regex_list').val('');
-			$('#url_table').empty();
-			$('#regex_table').empty();
-		}
-			
+
 		</script>
+		<script id='client_js'></script>
 		<style>
 			td {
 				font-family: gotham-book, Arial;
@@ -201,39 +217,152 @@
 				<td colspan="2">
 					<p class="heading" id="heading_td"><font id="touch">Touch</font><font id="regex">Regex</font></p>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>
 					<br>
+					<p>Select client:
+						<select id="client" onchange="setClient();">
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003720_default.js">American Loan Web</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003722_default.js">Astro</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004066_default.js">ASUS</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004119_default.js">ATT</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004072_default.js">ATT Demo</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_324_default.js">BancorpSouth</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004474_default.js">Bank of America (POC)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004376_default.js">Bank of America (Sandbox)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004486_default.js">Bell CA (sandbox)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004127_default.js">Bell Canada</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003715_default.js">BestBrands</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_338_default.js">Bouygues</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_1000369_default.js">Bouygues Care</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_141_default.js">Broadband National - Bridgevine</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_3000380_default.js">Canal</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_2000378_default.js">Carrefour Brasil</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003974_default.js">Century Link</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003718_default.js">Cetelem</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_347_default.js">Charbroil</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_3000379_default.js">Chaz Dean</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_345_default.js">Citizens Bank</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_312_default.js">Comcast</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004098_default.js">Cox</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004397_default.js">Cricket</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004478_default.js">CSK (sandbox)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_349_default.js">Demo</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004154_default.js">Demo-west1</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003729_default.js">Direct Line</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_146_default.js">DirecTV</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_7000381_default.js">Disney</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003724_default.js">DisneyTestClient</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004048_default.js">Dixons</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004139_default.js">DS Services</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004415_default.js">EH_Australia</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004416_default.js">EH_Canada</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004418_default.js">EH_CP</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004417_default.js">EH_UK</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004037_default.js">eHarmony</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_351_default.js">Entertainment Cruises</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003967_default.js">Equinix</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004489_default.js">eSurance</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004500_default.js">FastActPortal</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_1000367_default.js">Fluidity Bar</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004062_default.js">Frontier</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003950_default.js">FTI</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004395_default.js">Graphics Team Test Client</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004068_default.js">Guthy Renker Japan</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004106_default.js">IBM Webshpere Widget Test</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004024_default.js">Intuit</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003727_default.js">Kabel Deutschland</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003954_default.js">Lifelock</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004108_default.js">Macys</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003959_default.js">Maxdome</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003938_default.js">Meaningful Beauty</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_357_default.js">MetLife Auto and Home</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_313_default.js">MetLife Life</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004028_default.js">Metro PCS</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_6000381_default.js">MMA</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003726_default.js">MysteryShop</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_328_default.js">NET</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003949_default.js">Net10</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003929_default.js">NRJ Mobile</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_2000376_default.js">Numericable</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004060_default.js">O2CZ</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004105_default.js">Orange Poland </option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004126_default.js">Otelo</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004498_default.js">PagePlusCellular</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004064_default.js">Panasonic</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003716_default.js">Pierre et Vacances</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_149_default.js">Proactiv</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003932_default.js">Proactiv Plus</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003717_default.js">RBS</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003721_default.js">Release</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004495_default.js">Safelink</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003993_default.js">Sales Guide Demos</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_316_default.js">SFR</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_3651_default.js">SFR - mig old</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_350_default.js">SFR Care</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_358_default.js">SFR Care Com</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_362_default.js">SFR Care Mobile</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_365_default.js">SFR Care Romania</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003711_default.js">SFR-Care</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_3652_default.js">SFR-Old1</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003712_default.js">SFR-P4P</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_4000381_default.js">SFRTestClient</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003937_default.js">Sheer Cover</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004051_default.js">ShopStraightTalk</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004497_default.js">SimpleMobile</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003719_default.js">Sky DE</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004093_default.js">Softbank</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_320_default.js">Solutions Planning</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_154_default.js">Sprint</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_359_default.js">SprintNSS</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003714_default.js">SprintTestClient</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003948_default.js">StraightTalk</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004053_default.js">Sunrise</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_346_default.js">Sylmark</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_322_default.js">TCTEST</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004496_default.js">Telcel America</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004018_default.js">Test2</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003713_default.js">TestClient</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003725_default.js">TestClientEast</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_343_default.js">T-Mobile US</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004499_default.js">Total Wireless</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_319_default.js">TotalGym</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_306_default.js">TouchCommerce</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_356_default.js">touchcommerce.com</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_321_default.js">TouchCommerceV3</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004494_default.js">Tracfone</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004387_default.js">Transcosmos (sandbox)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003970_default.js">Unity Media</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004394_default.js">Verizon (sandbox)</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10004321_default.js">Virgin Canada</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_139_default.js">Virgin Media</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_360_default.js">Virgin Mobile France</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_355_default.js">Virgin USA</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_302_default.js">Vodafone DE</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_348_default.js">Vodafone DE Care</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_344_default.js">VodafoneNZ</option>
+							<option value="http://comcast.inq.com/chatskins/launch/site_10003723_default.js">Voyage Prive</option>
+						</select>
+					</p>
+					<br>
+					<br>
+				<td>
+			</tr>
+			<tr>
+				<td>
 					<p>Paste URLs here:</p>
 				</td>
 				<td>
-					<br>
 					<p>Paste RexEx's here:</p>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">
-					<textarea id="url_list" rows="25" cols="80">
-URL EXAMPLES:
-www.comcast.com/buyflow2/products.cspx
-www.comcast.com/buyflow2/customize.cspx
-www.comcast.com/buyflow2/customerinfo.cspx
-www.comcast.com/buyflow2/review.cspx
-www.comcast.com/buyflow2/installation.cspx
-www.comcast.com/buyflow3/review.cspx
-www.comcast.com/buyflow2/productsexisting.cspx</textarea>
+					<textarea id="url_list" rows="25" cols="80"></textarea>
 				</td>
 				<td align="center">
-					<textarea id="regex_list" rows="25" cols="80">
-REGEX EXAMPLES:
-(.*)inqchat.html(.*)
-(.*)/buyflow2/products.cspx(.*)|(.*)/Buyflow2/products.cspx(.*)
-(.*)/buyflow2/customize.cspx(.*)|(.*)/Buyflow2/customize.cspx(.*)
-(.*)/Buyflow2/CustomerInfo.cspx(.*)|(.*)/buyflow2/customerinfo.cspx(.*)
-(.*)/Buyflow2/installation.cspx(.*)|(.*)/buyflow2/installation.cspx(.*)
-(.*)/Buyflow2/review.cspx(.*)|(.*)/buyflow2/review.cspx(.*)
-(.*)/buyflow2/productsexisting.cspx(.*)</textarea>
+					<textarea id="regex_list" rows="25" cols="80"></textarea>
 				</td>
 			</tr>
 			<tr>

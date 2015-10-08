@@ -124,8 +124,20 @@
 				
 			function setClient() {
 				var client_url = $('#client option:selected').val();
-				$('#client_js').attr('src', client_url);
 				
+				var client1 = new XMLHttpRequest();
+				client1.open('GET', client_url);
+				client1.onreadystatechange = function() {
+				  alert(client1.responseText);
+				}
+				client1.send();
+
+			/*	
+				client_js = $.getScript(client_url);
+				client_js = client_js.substring(client_js.indexOf('return:'), client_js.length - 1);
+				//$('#client_js').attr('src', client_url);
+				
+				/*
 				var tc_obj = initSiteDefaultData();
 				
 				for (i = 0; i < tc_obj['pages'].length; i++) {
@@ -135,6 +147,7 @@
 					}
 					$('#regex_list').val($('#regex_list').val() + entry_break + tc_obj['pages'][i]);
 				}
+				*/
 			}
 
 		</script>

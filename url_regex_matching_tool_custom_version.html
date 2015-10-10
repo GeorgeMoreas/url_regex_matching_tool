@@ -124,18 +124,16 @@
 			}
 				
 			function setClient() {
-				var framework_url = 'https://comcast.inq.com/chatskins/launch/inqChatLaunch312.js';
-				
+				//this will set client_url = "http://comcast.inq.com/chatskins/launch/site_10003720_default.js" for example
 				client_url = $('#client option:selected').val();
-				$('#framework_js').attr('src', framework_url);
-				//$('#client_js').attr('src', client_url);
+				$('#client_js').attr('src', client_url);
 				
-				v3Lander.initSiteDefaultData(client_url, '', '');
-				alert (v3Lander.inqSiteDataFun);
+				//how do I run the code inside client_url to initiate the initSiteDefaultData inside of
+				//'https://comcast.inq.com/chatskins/launch/inqChatLaunch312.js'?
 			}
 			
 		</script>
-		<script id='framework_js'></script>
+		<script id='framework_js' src='https://comcast.inq.com/chatskins/launch/inqChatLaunch312.js'></script>
 		<script id='client_js'></script>
 		<style>
 			td {

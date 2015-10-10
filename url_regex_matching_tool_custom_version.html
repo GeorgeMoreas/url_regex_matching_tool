@@ -3,6 +3,7 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script>
+			var client_url = '';
 		
 			function checkRegexSlashes(r) {	 
 				if (r.substring(0,1) != '/' || r.substring(r.length - 1) != '/') {
@@ -123,22 +124,16 @@
 			}
 				
 			function setClient() {
-				var framework_url = 'https://comcast.inq.com/chatskins/launch/inqChatLaunch312.js'
-				var client_url = $('#client option:selected').val();
+				var framework_url = 'https://comcast.inq.com/chatskins/launch/inqChatLaunch312.js';
+				
+				client_url = $('#client option:selected').val();
 				$('#framework_js').attr('src', framework_url);
-				$('#client_js').attr('src', client_url);
-				            
-				var v3Lander = {
-					initSiteDefaultData:function(siteData, rulesEngineData, landingData) {
-						v3Lander.landingData = landingData;
-						v3Lander.inqSiteDataFun = "var initSiteData = " + str(siteData);
-						v3Lander.inqRulesEngineFun = "var initRulesData = " + str(rulesEngineData);
-					}
-				}
+				//$('#client_js').attr('src', client_url);
+				
+				v3Lander.initSiteDefaultData(client_url, '', '');
+				alert (v3Lander.inqSiteDataFun);
 			}
 			
-			var initSiteDefaultData = 
-
 		</script>
 		<script id='framework_js'></script>
 		<script id='client_js'></script>
